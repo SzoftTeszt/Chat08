@@ -19,4 +19,8 @@ export class BaseService {
     body.email="jagerattila@gmail.com"
     return this.messages.push(body)
   }
+
+  getMessages(){
+    return this.messages
+  }
 }

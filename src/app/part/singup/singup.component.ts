@@ -27,7 +27,7 @@ export class SingupComponent {
 
   signUp(){
     this.auth.signUp(this.email, this.password).then(
-      ()=>this.router.navigate(['/signin'])
+      ()=>this.auth.sendVerificationEmail()
     ).catch(
       (e)=>console.log(e)
     )
