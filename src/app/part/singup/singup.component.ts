@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { BaseService } from 'src/app/services/base.service';
 
@@ -10,16 +11,14 @@ import { BaseService } from 'src/app/services/base.service';
 export class SingupComponent {
   email:string=""
   password:string=""
+  password2:string=""
 
   constructor(private auth:AuthService, 
-    private base:BaseService){}
+    private base:BaseService,
+    private router:Router){}
 
   googleAuth(){
-    this.auth.googleAuth().then(
-      ()=>console.log("Sikeres google regisztráció!")
-    ).catch(
-      (e)=>console.log(e)
-    )
+    this.auth.googleAuth()
   }
 
   addMessage(){
@@ -28,9 +27,13 @@ export class SingupComponent {
 
   signUp(){
     this.auth.signUp(this.email, this.password).then(
-      ()=>console.log("Szép az élet")
+      ()=>this.router.navigate(['/signin'])
     ).catch(
       (e)=>console.log(e)
     )
+  }
+
+  validUser(){
+    return false
   }
 }
