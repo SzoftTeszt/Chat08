@@ -15,6 +15,14 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/signin">Log In</a>
           </li>             
+          <li *ngIf="getIsSuperAdmin()" class="nav-item">
+            <a class="nav-link" routerLink="/users">Users</a>
+          </li>  
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/users">Felhasználók</a>
+          </li>  
+
           <li *ngIf="user" class="nav-item">
             <a (click)="signOut()" class="nav-link" >Sign Out</a>
           </li>             

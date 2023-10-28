@@ -15,6 +15,7 @@ import { Enviroments } from './enviroments';
 import { FormsModule } from '@angular/forms';
 import { ForgotPasswordComponent } from './part/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './part/verify-email/verify-email.component';
+import { UserListComponent } from './part/user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { VerifyEmailComponent } from './part/verify-email/verify-email.component
     HomeComponent,
     NavComponent,
     ForgotPasswordComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,

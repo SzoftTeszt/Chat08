@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const serviceAccount = require('./chat08new-firebase-adminsdk-bye8v-8b339b1bc0.json');
+const serviceAccount = require('./chat08new-firebase-adminsdk-bye8v-cd9e59b9d6.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://chat08new-default-rtdb.europe-west1.firebasedatabase.app"
@@ -58,6 +58,7 @@ app.get('/users', verifyToken, (req, res) => {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName,
+        claims: user.customClaims
         // Egyéb felhasználói adatok ......
       }));
       res.json(users);
