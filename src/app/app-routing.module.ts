@@ -6,18 +6,18 @@ import { SinginComponent } from './part/singin/singin.component';
 import { ForgotPasswordComponent } from './part/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './part/verify-email/verify-email.component';
 import { UserListComponent } from './part/user-list/user-list.component';
-import { superAdminGuard } from './super-admin.guard';
+import { sAdminGuard } from './sadmin.guard';
+import { loginGuard } from './login.guard';
 
 const routes: Routes = [
   {path:"", component:HomeComponent},
   {path:"home", redirectTo:""},
-  {path:"signup", component:SingupComponent},
-  {path:"signin", component:SinginComponent},
+  {path:"signup", component:SingupComponent, canActivate:[loginGuard]},
+  {path:"signin", component:SinginComponent, canActivate:[loginGuard]},
   {path:"forgotpassword", component:ForgotPasswordComponent},
   {path:"verifyemail", component:VerifyEmailComponent},
-  {path:"users", component:UserListComponent, canActivate:[superAdminGuard]},
-
-  {path:"**", redirectTo:""},
+  {path:"users", component:UserListComponent, canActivate:[sAdminGuard]},
+  {path:"**", component:HomeComponent},
 ];
 
 @NgModule({

@@ -9,19 +9,19 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/home">Home</a>
           </li>    
-          <li class="nav-item">
+          <li *ngIf="!user" class="nav-item">
             <a class="nav-link" routerLink="/signup">Registration</a>
           </li>    
-          <li class="nav-item">
+          <li *ngIf="!user" class="nav-item">
             <a class="nav-link" routerLink="/signin">Log In</a>
           </li>             
-          <li *ngIf="getIsSuperAdmin()" class="nav-item">
+          <li *ngIf="isSuperAdmin" class="nav-item">
             <a class="nav-link" routerLink="/users">Users</a>
           </li>  
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" routerLink="/users">Felhasználók</a>
-          </li>  
+          </li>   -->
 
           <li *ngIf="user" class="nav-item">
             <a (click)="signOut()" class="nav-link" >Sign Out</a>

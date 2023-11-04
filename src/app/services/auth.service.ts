@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { GoogleAuthProvider } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,17 @@ export class AuthService {
   user:any={}
   defaultClaims = {superAdmin:false, admin:false, informatikus:false}
 
+  superAdminSubject= new Subject<boolean>
+  superAdminBehavior= new BehaviorSubject<boolean>(false)
+
+
   constructor(private afAuth:AngularFireAuth,
     private router:Router, private http: HttpClient) {
       this.getLoggedUser().subscribe(
         (user)=>{
           if (user){
             this.user=user
+           
             console.log("Belépés", user)
             // if (!this.user.displayName) this.user.displayName=this.user.email
             user.getIdToken().then(
@@ -27,10 +33,16 @@ export class AuthService {
                   this.user.token=token
                   this.getClaims(this.user.uid).subscribe(
                     (claims)=> {
-                      if (claims)
+                      if (claims) {
                         this.user.claims=claims
+                        this.superAdminSubject.next(this.user.claims.superAdmin)
+                        this.superAdminBehavior.next(this.user.claims.superAdmin)
+                      }
                       else{
                         this.setCustomClaims(this.user.uid, this.defaultClaims)
+                        this.user.claims=this.defaultClaims
+                        this.superAdminSubject.next(false)
+                        this.superAdminBehavior.next(false)
                       }
                     }                   
                     
@@ -38,14 +50,19 @@ export class AuthService {
                 }
             )
           }
-          else this.user=null
+          else {
+            this.user=null
+            this.superAdminSubject.next(false)
+            this.superAdminBehavior.next(false)
+          }
         }
       )
      }
   
      getIsSuperAdmin(){
-      if (this.user && this.user.claims) return this.user.claims.superAdmin
-      else return false
+      if (this.user && this.user.claims) return this.superAdminBehavior
+      // return false
+      return this.superAdminSubject
      }
 
   getClaims(uid:string){
@@ -70,7 +87,7 @@ export class AuthService {
       (u)=>{
         console.log("Google regisztráció",u)
              
-        this.router.navigate(['/home'])
+        this.router.navigate(['/users'])
       }
     )
   }
@@ -91,6 +108,11 @@ export class AuthService {
 
   getLoggedUser(){
     return this.afAuth.authState
+  }
+
+  isLogin(){
+    if (this.user) return false
+    return true
   }
 
   sendVerificationEmail(){

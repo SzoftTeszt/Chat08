@@ -10,7 +10,11 @@ import { AuthService } from 'src/app/services/auth.service';
 export class NavComponent {
   coll=true
   user:any=null;
+  isSuperAdmin=false
   constructor(private auth:AuthService, private router:Router){
+    // this.getIsSuperAdmin()
+    this.getIsSuperAdmin()
+    
     this.auth.getLoggedUser().subscribe(
       (u)=>
         {
@@ -20,8 +24,13 @@ export class NavComponent {
     )
   }
 
-  getIsSuperAdmin():boolean{
-    return this.auth.getIsSuperAdmin()
+  getIsSuperAdmin(){
+    this.auth.getIsSuperAdmin().subscribe(
+      (sadmin)=> {
+        console.log("Jog frissült:", sadmin )
+        this.isSuperAdmin=sadmin
+      }
+    )
   }
 
   signOut(){
